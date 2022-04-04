@@ -4,26 +4,28 @@ package com.example.todolist.resources;
 import com.example.todolist.model.User;
 import com.example.todolist.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("api/v1")
 public class UserResource {
 
     @Autowired
     private UserService userService;
 
+    @GetMapping("/home")
+    public String home(){
+        return "This is homepage";
+    }
+
     @PostMapping("/login")
     public String login(@RequestBody Map<String, Object> userMap) {
+        System.out.println("sadsa");
         String email = (String) userMap.get("email");
         String password = (String) userMap.get("password");
         User user = userService.validateUser(email, password);
-
 
         return user.getFirstName() + ", your user-id is: " + user.getUserId();
 

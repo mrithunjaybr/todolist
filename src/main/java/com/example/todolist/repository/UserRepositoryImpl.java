@@ -14,6 +14,7 @@ import org.springframework.stereotype.Repository;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 
+@SuppressWarnings("deprecation")
 @Repository
 public class UserRepositoryImpl implements UserRepository {
 
@@ -36,6 +37,19 @@ public class UserRepositoryImpl implements UserRepository {
     @Autowired
     JdbcTemplate jdbcTemplate;
 
+    @SuppressWarnings({"UnnecessaryLocalVariable", "deprecation"})
+    @Override
+    public User findByEmail(String email) {
+        try {
+            User user = jdbcTemplate.queryForObject(FIND_BY_EMAIL, new Object[]{email}, userRowMapper);
+            return user;
+
+        } catch (EmptyResultDataAccessException e) {
+            throw new ETAuthException("Invalid email!");
+        }
+    }
+
+
     @Override
     public Integer createUser(String firstName, String lastName, String email, String password) throws ETAuthException {
         String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt(10));
@@ -55,6 +69,7 @@ public class UserRepositoryImpl implements UserRepository {
         }
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public Integer getCountByEmail(String email) {
         return jdbcTemplate.queryForObject(SQL_COUNT_BY_EMAIL, new Object[]{email}, Integer.class);
