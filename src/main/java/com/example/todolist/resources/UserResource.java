@@ -5,9 +5,7 @@ import com.example.todolist.model.CustomUserDetails;
 import com.example.todolist.model.User;
 import com.example.todolist.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -20,8 +18,8 @@ public class UserResource {
     private UserService userService;
 
     @GetMapping("/home")
-    public String home(){
-        CustomUserDetails  userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication()
+    public String home() {
+        CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication()
                 .getPrincipal();
         String username = userDetails.getUsername();
         //above 2 lines is used to get username from basic auth of postman
