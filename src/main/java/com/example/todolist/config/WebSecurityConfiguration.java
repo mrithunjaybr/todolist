@@ -20,18 +20,19 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 
     @Bean
-    public AuthenticationProvider authenticationProvider(){
+    public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setUserDetailsService(userDetailsService);
         provider.setPasswordEncoder(new BCryptPasswordEncoder());
         return provider;
     }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("api/v1/login","api/v1/register")
+                .antMatchers("api/v1/login", "api/v1/register")
                 .permitAll()
-                .antMatchers("api/v1/home")
+                .antMatchers("api/v1/home", "api/v1/tasks")
                 .authenticated()
                 .and()
                 .httpBasic();

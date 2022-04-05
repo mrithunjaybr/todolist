@@ -17,19 +17,20 @@ public class UserResource {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/home")
-    public String home() {
+    public String getEmailId(){ // used to get username from basic auth of postman
         CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication()
                 .getPrincipal();
-        String username = userDetails.getUsername();
-        //above 2 lines is used to get username from basic auth of postman
-        System.out.println(username);
+        return userDetails.getUsername();
+    }
+
+    @GetMapping("/home")
+    public String home() {
+        System.out.println(getEmailId());
         return "This is homepage";
     }
 
     @PostMapping("/login")
     public String login(@RequestBody Map<String, Object> userMap) {
-        System.out.println("sadsa");
         String email = (String) userMap.get("email");
         String password = (String) userMap.get("password");
         User user = userService.validateUser(email, password);
