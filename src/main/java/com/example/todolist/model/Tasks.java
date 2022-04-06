@@ -5,10 +5,22 @@ public class Tasks {
     private Integer userTaskId;
     private String taskDescription;
 
+    public Tasks() {
+    }
+
     public Tasks(Integer userId, Integer userTaskId, String taskDescription) {
         this.userId = userId;
         this.userTaskId = userTaskId;
         this.taskDescription = taskDescription;
+    }
+
+    @Override
+    public String toString() {
+        return "Tasks{" +
+                "userId=" + userId +
+                ", userTaskId=" + userTaskId +
+                ", taskDescription='" + taskDescription + '\'' +
+                '}';
     }
 
     public Integer getUserId() {

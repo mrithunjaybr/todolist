@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
+
 @RestController
 @RequestMapping("api/v1/tasks")
 public class TaskResource {
@@ -23,8 +25,10 @@ public class TaskResource {
 
 
     @GetMapping("/list")
-    String listTasks(){
+    ArrayList<String> listTasks(){
         User user = userRepository.findByEmail(userResource.getEmailId());
-        return "dummy lists";
+        System.out.println("ITS working 1");
+        return taskRepository.listTasks(user.getUserId());
+
     }
 }

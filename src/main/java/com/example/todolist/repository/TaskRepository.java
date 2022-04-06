@@ -1,10 +1,12 @@
 package com.example.todolist.repository;
 
-import com.example.todolist.model.Tasks;
+import java.util.ArrayList;
 
 public interface TaskRepository {
-    Tasks listTasks(Integer userId);
-    Tasks addTasks(Integer userId);
-    Tasks removeTasks(Integer userTaskId);
+    ArrayList<String> listTasks(Integer userId);
+
+    ArrayList<String> addTasks(Integer userId, String task);
+
+    ArrayList<String> removeTasks(Integer userTaskId);
 
 }

@@ -16,7 +16,7 @@ password text not null
 );
 
 create table tdl_tasks(
-userTask_id varchar(10) primary key not null,
+userTask_id integer primary key not null,
 user_id integer not null,
 task varchar(50) not null
 );
@@ -26,4 +26,4 @@ foreign key (user_id) references tdl_users(user_id);
 
 
 create sequence tdl_users_seq increment 1 start 1;
-create sequence tdl_categories_seq increment 1 start 1000;
+create sequence tdl_tasks_seq increment 1 start 1000;
