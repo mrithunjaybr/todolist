@@ -1,11 +1,12 @@
 package com.example.todolist.repository;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public interface TaskRepository {
-    ArrayList<String> listTasks(Integer userId);
+    HashMap<Integer,String> listTasks(Integer userId);
 
-    ArrayList<String> addTasks(Integer userId, String task);
+    void addTasks(Integer userId, String task);
 
     ArrayList<String> removeTasks(Integer userTaskId);
 

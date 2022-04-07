@@ -8,10 +8,11 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 @Repository
 public class TaskRepositoryImpl implements TaskRepository {
-    private static final String LIST_BY_USERID = "SELECT USERTASK_ID,TASK FROM TDL_TASKS WHERE USER_ID = 1";
+    private static final String LIST_BY_USERID = "SELECT USERTASK_ID,TASK FROM TDL_TASKS WHERE USER_ID = ?";
 
     private static final String LIST_BY_USERID_TWO = "SELECT * FROM TDL_TASKS";
 
@@ -28,12 +29,12 @@ public class TaskRepositoryImpl implements TaskRepository {
 
 
     @Override
-    public ArrayList<String> listTasks(Integer userId) {
-        ArrayList<String> tasks = new ArrayList<>();
+    public HashMap<Integer,String> listTasks(Integer userId) {
+        HashMap<Integer,String> tasks = new HashMap<>();
         try (Connection conn = DriverManager.getConnection(
                 "jdbc:postgresql://localhost:5432/todolistdb", "postgres", "password");
              PreparedStatement preparedStatement = conn.prepareStatement(LIST_BY_USERID)) {
-
+            preparedStatement.setInt(1,userId);
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
@@ -45,8 +46,7 @@ public class TaskRepositoryImpl implements TaskRepository {
                 obj.setUserTaskId(userTaskId);
                 obj.setUserId(userId);
                 obj.setTaskDescription(task);
-                tasks.add(task);
-                System.out.println(obj);
+                tasks.put(userTaskId,task);
 
             }
 
@@ -61,8 +61,17 @@ public class TaskRepositoryImpl implements TaskRepository {
 
 
     @Override
-    public ArrayList<String> addTasks(Integer userId, String task) {
-        return null;
+    public void addTasks(Integer userId, String task) {
+        try (Connection conn = DriverManager.getConnection(
+                "jdbc:postgresql://localhost:5432/todolistdb", "postgres", "password");
+             PreparedStatement preparedStatement = conn.prepareStatement(ADD_TASK_BY_USERID)) {
+            preparedStatement.setInt(1,userId);
+            preparedStatement.setString(2,task);
+            ResultSet resultSet = preparedStatement.executeQuery();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override
