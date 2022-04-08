@@ -75,7 +75,14 @@ public class TaskRepositoryImpl implements TaskRepository {
     }
 
     @Override
-    public ArrayList<String> removeTasks(Integer userTaskId) {
-        return null;
+    public void removeTasks(Integer userTaskId) {
+        try (Connection conn = DriverManager.getConnection(
+                "jdbc:postgresql://localhost:5432/todolistdb", "postgres", "password");
+             PreparedStatement preparedStatement = conn.prepareStatement(REMOVE_TASK_BY_USERID)) {
+            preparedStatement.setInt(1,userTaskId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

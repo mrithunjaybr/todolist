@@ -8,6 +8,6 @@ public interface TaskRepository {
 
     void addTasks(Integer userId, String task);
 
-    ArrayList<String> removeTasks(Integer userTaskId);
+    void removeTasks(Integer userTaskId);
 
 }
