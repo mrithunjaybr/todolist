@@ -1,9 +1,11 @@
 package com.example.todolist.resources;
 
 
+import com.example.todolist.model.CustomUserDetails;
 import com.example.todolist.model.User;
 import com.example.todolist.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -15,14 +17,20 @@ public class UserResource {
     @Autowired
     private UserService userService;
 
+    public String getEmailId(){ // used to get username from basic auth of postman
+        CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication()
+                .getPrincipal();
+        return userDetails.getUsername();
+    }
+
     @GetMapping("/home")
-    public String home(){
+    public String home() {
+        System.out.println(getEmailId());
         return "This is homepage";
     }
 
     @PostMapping("/login")
     public String login(@RequestBody Map<String, Object> userMap) {
-        System.out.println("sadsa");
         String email = (String) userMap.get("email");
         String password = (String) userMap.get("password");
         User user = userService.validateUser(email, password);
